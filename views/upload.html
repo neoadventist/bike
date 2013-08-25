@@ -1,7 +1,13 @@
 <h1>{{header}}</h1>
-<form name="uploadride" action="process/upload.php" ng-upload>
-<input type="file" name="ride">
-<input type="submit" class="btn" value="Submit" upload-submit="uploadComplete(content, completed)" />
-</form>
-<pre>Server Response: {{response}}</pre>
-<div id="map"></div>
+<div class="row-fluid">
+	<form name="uploadride" action="process/upload.php" ng-upload>
+		<input type="file" name="ride">
+		<input type="submit" class="btn" value="Submit" upload-submit="uploadComplete(content, completed)" />
+	</form>
+</div>
+<div class="row-fluid">
+	<div id="map"></div>
+</div>
+<div class="row-fluid">
+	<pre>Server Response: {{response}}</pre>
+</div>

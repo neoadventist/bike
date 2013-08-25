@@ -15,8 +15,8 @@ $route = Array();
 
 $i=0;
 foreach($xml->trk->trkseg->trkpt as $point){
-	$route[$i]["lon"]= (string)$point[0]["lon"];
-	$route[$i]["lat"]= (string)$point[0]["lat"];
+	$route[$i][0]= (float)$point[0]["lat"];
+	$route[$i][1]= (float)$point[0]["lon"];
 	$i++;
 }
 echo json_encode($route);
