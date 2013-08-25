@@ -1,1 +1,6 @@
 <h1>{{header}}</h1>
+<form name="uploadride" action="process/upload.php" ng-upload>
+<input type="file" name="ride">
+<input type="submit" class="btn" value="Submit" upload-submit="uploadComplete(content, completed)" />
+</form>
+<div class="alert alert-info">Server Response: {{response | json}}</div>

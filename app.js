@@ -1,4 +1,4 @@
-var app = angular.module('BIKE', ['ui.bootstrap']).
+var app = angular.module('BIKE', ['ui.bootstrap','ngUpload']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/start', {templateUrl: 'views/start.html',   controller: 'start'}).
