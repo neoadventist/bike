@@ -9,6 +9,15 @@ $u = "Upload: " . $_FILES["ride"]["name"] . "<br>";
 $t = "Type: " . $_FILES["ride"]["type"] . "<br>";
 $s = "Size: " . ($_FILES["ride"]["size"] / 1024) . " kB<br>";
 
+$res =$xml->trk->name;
 
-echo json_encode($u.$t.$s.$file.print_r($xml));
+$route = Array(); 
+
+$i=0;
+foreach($xml->trk->trkseg->trkpt as $point){
+	$route[$i]["lon"]= $point["lon"];
+	$route[$i]["lat"]= $point["lat"];
+	$i++;
+}
+echo json_encode($route);
 ?>
