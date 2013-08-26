@@ -1,7 +1,7 @@
 <h1>{{header}}</h1>
 <div class="row-fluid">
 	<form name="uploadride" action="process/upload.php" ng-upload>
-		<input type="file" name="ride">
+		<input type="file" name="ride[]" multiple >
 		<input type="submit" class="btn" value="Submit" upload-submit="uploadComplete(content, completed)" />
 	</form>
 </div>
