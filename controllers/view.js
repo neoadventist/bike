@@ -1,6 +1,7 @@
 app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	$scope.header="View Your Rides!";
 	$scope.name = sharedData.getName().name;
+	$scope.numRoutes =0;
 	initMap = function(){
 	// set up the map
 	window.map = new L.Map('map');
@@ -34,6 +35,7 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	var buildRoutes = function(){
 		$scope.routes = sharedData.getRoutes();
 		var size = Object.size($scope.routes);
+		$scope.numRoutes = size;
 		for (r=0;r<size;r++){
 
 		drawRoute($scope.routes[r]);
