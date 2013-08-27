@@ -35,31 +35,24 @@ app.factory('sharedData',['$http', function($http) {
 			data.name=name;
 		},
 		saveRoutes: function(r) {
-			console.log(routes);
-			//angular.extend(routes, r);
-			//$.extend(routes,r);
 			var merge = function(routes,r){
 				var merged= {};
 				var index =[];
 				for(var propt in routes){
-					//console.log(propt + ': ' + routes[propt]);
 					merged[propt]=routes[propt];
 					index.push(propt);
 				}
 				var indexNum = index.length;
 				for(var propt in r){
-					//console.log(propt + ': ' + r[propt]);
 					newPropt = Number(propt)+Number(indexNum);
 					merged[newPropt]=r[propt];
 					index.push(propt);
 				}
 				console.log(index);
-				//console.log(merged);
 				return merged;
 			}
 			routes = merge(routes,r);
-            //routes = r;
-			console.log(routes);
+
 			
         },
         getRoutes: function() {

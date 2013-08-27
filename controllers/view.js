@@ -21,6 +21,7 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		sharedData.setName(name);
 	}
 	
+	//get size of an object
 	Object.size = function(obj) {
 		var size = 0, key;
 		for (key in obj) {
@@ -29,9 +30,25 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		return size;
 	};
 
-	// Get the size of an object
-	//var size = Object.size(myArray);	
+	//use great circle calculation to find the distance between two GPS coordinates
+	var gpsDistance = function(lat1,lon1,lat2,lon2){
 	
+		Number.prototype.toRad = function() {
+			return this * Math.PI / 180;
+		}
+	
+		var R = 6371; // km
+		var dLat = (lat2-lat1).toRad();
+		var dLon = (lon2-lon1).toRad();
+		var lat1 = lat1.toRad();
+		var lat2 = lat2.toRad();
+
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		var d = R * c;
+		return d;
+	}
+
 	var buildRoutes = function(){
 		$scope.routes = sharedData.getRoutes();
 		var size = Object.size($scope.routes);
@@ -49,10 +66,21 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 			data.push([route[i][0], route[i][1]]);
 			//console.log(route[i][0]);
 		}
+		
+		//calcuate distance between first and last point. 
+		l = data.length-1;
+		var distance = gpsDistance(data[1][0],data[1][1],data[l][0],data[l][1]);
+		
+		if (distance<5){dcolor = '#000000';}
+		if (distance>=5 && distance<10){dcolor = '#0000FF';}
+		if (distance>=10 && distance<15){dcolor = '#FF00FF';}
+		if (distance>=15 && distance<30){dcolor = '#FF0000';}
+		if (distance>=30){dcolor = '#660099';}
+		
 		var polyline_options = {
-			color: '#000',
+			color: dcolor,
 			"weight": 7,
-			"opacity": 0.40
+			"opacity": 0.50
 		};
 		var track = L.polyline(data, polyline_options).addTo(window.map);
 		// zoom the map to the route
