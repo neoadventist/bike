@@ -8,9 +8,10 @@ var app = angular.module('BIKE', ['ui.bootstrap','ngUpload']).
 	  otherwise({redirectTo: '/start'});
 }]);
 app.factory('sharedData',['$http', function($http) {
-	var data = {};
+	var data = {name:"Default Name"};
 	var fetch = {};
-	var routes ={name:"Hollywood Run"};
+	//point =[[34.051144,-118.238113]];
+	var routes ={};
 	getInfo= function(){
 		$http({
 			url: "data/get.php",
@@ -27,14 +28,19 @@ app.factory('sharedData',['$http', function($http) {
 	//console.log(data);
 	var userdata = {};
     return {
+        getName: function() {
+            return data;
+        },
+		setName: function(name){
+			data.name=name;
+		},
+		saveRoutes: function(r) {
+			jQuery.extend(routes, r);
+            routes = r;
+			console.log(routes);
+        },
         getRoutes: function() {
             return routes;
-        },
-		setRoutes: function(name){
-			routes.name=name;
-		},
-		getUData: function() {
-            return userdata;
         }
     };
 }]);

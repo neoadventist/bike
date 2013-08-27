@@ -1,10 +1,11 @@
 app.controller('upload', function ($scope, $timeout, $filter,sharedData) {
 	$scope.header="Upload Your Ride!";
-	$scope.name = sharedData.getRoutes().name;
+	$scope.name = sharedData.getName().name;
 	$scope.uploadComplete = function (content, completed) {
 		if (completed && content.length > 0) {
 			$scope.response = (content); // Presumed content is a json string!
-			console.log(content);
+			console.log($scope.response);
+			sharedData.saveRoutes($scope.response);
 			for($currentRoute=0;$currentRoute<$scope.response.length;$currentRoute++){
 				drawRoute($scope.response[$currentRoute]);
 			}
@@ -14,7 +15,7 @@ app.controller('upload', function ($scope, $timeout, $filter,sharedData) {
 	
 initMap = function(){
 	// set up the map
-	window.map = new L.Map('map');
+	$scope.map = new L.Map('map');
 
 	// create the tile layer with correct attribution
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -22,8 +23,8 @@ initMap = function(){
 	var osm = new L.TileLayer(osmUrl, {minZoom: 9, maxZoom: 20, attribution: osmAttrib});		
 
 	// start the map at Cheif Lunes Meet Spot
-	map.setView(new L.LatLng(34.033235,-118.2835057),10);
-	map.addLayer(osm);
+	$scope.map.setView(new L.LatLng(34.033235,-118.2835057),10);
+	$scope.map.addLayer(osm);
 };
 initMap();
 	
@@ -38,7 +39,7 @@ drawRoute = function(route){
 		"weight": 7,
 		"opacity": 0.40
 	};
-	var track = L.polyline(data, polyline_options).addTo(window.map);
+	var track = L.polyline(data, polyline_options).addTo($scope.map);
 	// zoom the map to the route
 	//window.map.fitBounds(track.getBounds());
 };
