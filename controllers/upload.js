@@ -1,6 +1,6 @@
-app.controller('upload', function ($scope, $timeout, $filter) {
+app.controller('upload', function ($scope, $timeout, $filter,sharedData) {
 	$scope.header="Upload Your Ride!";
-	
+	$scope.name = sharedData.getRoutes().name;
 	$scope.uploadComplete = function (content, completed) {
 		if (completed && content.length > 0) {
 			$scope.response = (content); // Presumed content is a json string!
