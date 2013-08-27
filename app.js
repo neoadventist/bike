@@ -35,8 +35,8 @@ app.factory('sharedData',['$http', function($http) {
 			data.name=name;
 		},
 		saveRoutes: function(r) {
-			jQuery.extend(routes, r);
-            routes = r;
+			angular.extend(routes, r);
+            //routes = r;
 			console.log(routes);
         },
         getRoutes: function() {

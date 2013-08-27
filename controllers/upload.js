@@ -30,7 +30,7 @@ initMap();
 	
 drawRoute = function(route){
 	var data=[]; 
-	for (i=0;i<route.length;i++){
+	for (i=1;i<route.length-1;i++){
 		data.push([route[i][0], route[i][1]]);
 		//console.log(route[i][0]);
 	}

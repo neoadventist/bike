@@ -16,8 +16,12 @@ for($f=0;$f<$n;$f++){
 	$res =$xml->trk->name;
 
 	$route = Array(); 
-
-	$i=0;
+	$properties = Array(); 
+	$properties["name"]="Spencer";
+	$properties["creator"]="http://spencersims.com";
+	$properties["routeNumber"]=$f;
+	$route[0]=$properties;
+	$i=1;
 	foreach($xml->trk->trkseg->trkpt as $point){
 		$route[$i][0]= (float)$point[0]["lat"];
 		$route[$i][1]= (float)$point[0]["lon"];

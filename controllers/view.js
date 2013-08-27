@@ -20,16 +20,30 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		sharedData.setName(name);
 	}
 	
+	Object.size = function(obj) {
+		var size = 0, key;
+		for (key in obj) {
+			if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
+	};
+
+	// Get the size of an object
+	//var size = Object.size(myArray);	
+	
 	var buildRoutes = function(){
 		$scope.routes = sharedData.getRoutes();
-		for(c=0;c<$scope.routes.length;c++){
-			drawRoute($scope.routes[c]);
+		var size = Object.size($scope.routes);
+		for (r=0;r<size;r++){
+
+		drawRoute($scope.routes[r]);
+
 		}
 	}
 
 	var drawRoute = function(route){
 		var data=[]; 
-		for (i=0;i<route.length;i++){
+		for (i=1;i<route.length-1;i++){
 			data.push([route[i][0], route[i][1]]);
 			//console.log(route[i][0]);
 		}
