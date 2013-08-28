@@ -2,6 +2,7 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	$scope.header="View Your Rides!";
 	$scope.name = sharedData.getName().name;
 	$scope.numRoutes =0;
+	var routeLayer = new L.LayerGroup();
 	initMap = function(){
 	// set up the map
 	window.map = new L.Map('map');
@@ -16,6 +17,9 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	// start the map at Cheif Lunes Meet Spot
 	window.map.setView(new L.LatLng(34.033235,-118.2835057),10);
 	window.map.addLayer(osm);
+	
+
+
 	};
 	
 	$scope.setName = function(name){
@@ -55,15 +59,19 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		$scope.routes = sharedData.getRoutes();
 		var size = Object.size($scope.routes);
 		$scope.numRoutes = size;
-		$scope.routeLayers = L.layerGroup();
+
 		for (r=0;r<size;r++){
-
-		drawRoute($scope.routes[r]);
-
+			drawRoute($scope.routes[r]);
 		}
 		//add all of the routes to the map. 
-		$scope.routeLayers.addTo(window.map);
+		window.map.addLayer(routeLayer);
 		//L.control.layers($scope.routeLayers).addTo(window.map);
+		
+		var overlays = {
+			"Rides": routeLayer
+		};
+
+		L.control.layers(null, overlays).addTo(window.map);
 	}
 
 	var drawRoute = function(route){
@@ -96,7 +104,8 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		//add the route to the map
 		var track = L.polyline(data, polyline_options);
 		
-		$scope.routeLayers.addLayer(track);
+		//add the route to the RouteLayer
+		track.addTo(routeLayer);
 		
 		//add a marker showing the start of the route. 
 		var start = L.marker([data[1][0],data[1][1]], {title: "Start"}).addTo(window.map).bindPopup("This Route has a distance of "+distance+"KM.");;
