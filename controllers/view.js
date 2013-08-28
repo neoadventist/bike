@@ -55,11 +55,15 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		$scope.routes = sharedData.getRoutes();
 		var size = Object.size($scope.routes);
 		$scope.numRoutes = size;
+		$scope.routeLayers = L.layerGroup();
 		for (r=0;r<size;r++){
 
 		drawRoute($scope.routes[r]);
 
 		}
+		//add all of the routes to the map. 
+		$scope.routeLayers.addTo(window.map);
+		//L.control.layers($scope.routeLayers).addTo(window.map);
 	}
 
 	var drawRoute = function(route){
@@ -90,7 +94,9 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		};
 		
 		//add the route to the map
-		var track = L.polyline(data, polyline_options).addTo(window.map);
+		var track = L.polyline(data, polyline_options);
+		
+		$scope.routeLayers.addLayer(track);
 		
 		//add a marker showing the start of the route. 
 		var start = L.marker([data[1][0],data[1][1]], {title: "Start"}).addTo(window.map).bindPopup("This Route has a distance of "+distance+"KM.");;
