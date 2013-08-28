@@ -7,7 +7,9 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	window.map = new L.Map('map');
 
 	// create the tile layer with correct attribution
-	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+	//var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+	var osmUrl='http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/22677/256/{z}/{x}/{y}.png';
+
 	var osmAttrib='Map data © OpenStreetMap contributors';
 	var osm = new L.TileLayer(osmUrl, {minZoom: 9, maxZoom: 20, attribution: osmAttrib});		
 
@@ -62,14 +64,18 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 
 	var drawRoute = function(route){
 		var data=[]; 
+		var prohibited=[33.940497, -118.323422];
 		for (i=1;i<route.length-1;i++){
-			data.push([route[i][0], route[i][1]]);
+			if (gpsDistance(route[i][0], route[i][1],prohibited[0],prohibited[1])>0.3){
+				data.push([route[i][0], route[i][1]]);
+			}
 			//console.log(route[i][0]);
 		}
 		
 		//calcuate distance between first and last point. 
 		l = data.length-1;
 		var distance = gpsDistance(data[1][0],data[1][1],data[l][0],data[l][1]);
+		
 		
 		if (distance<5){dcolor = '#000000';}
 		if (distance>=5 && distance<10){dcolor = '#0000FF';}
@@ -82,7 +88,14 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 			"weight": 7,
 			"opacity": 0.50
 		};
+		
+		//add the route to the map
 		var track = L.polyline(data, polyline_options).addTo(window.map);
+		
+		//add a marker showing the start of the route. 
+		var start = L.marker([data[1][0],data[1][1]], {title: "Start"}).addTo(window.map).bindPopup("This Route has a distance of "+distance+"KM.");;
+		var end = L.marker([data[l][0],data[l][1]], {title: "End"}).addTo(window.map);
+		
 		// zoom the map to the route
 		//window.map.fitBounds(track.getBounds());
 	};
