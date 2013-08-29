@@ -2,7 +2,11 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	$scope.header="View Your Rides!";
 	$scope.name = sharedData.getName().name;
 	$scope.numRoutes =0;
-	var routeLayer = new L.LayerGroup();
+	
+	//all routes are going to go into this layer eventurally. 
+	var rLayers = {};
+	var polylines = [];
+	
 	initMap = function(){
 	// set up the map
 	window.map = new L.Map('map');
@@ -17,10 +21,7 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	// start the map at Cheif Lunes Meet Spot
 	window.map.setView(new L.LatLng(34.033235,-118.2835057),10);
 	window.map.addLayer(osm);
-	
-
-
-	};
+};
 	
 	$scope.setName = function(name){
 		console.log(name);
@@ -59,19 +60,16 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		$scope.routes = sharedData.getRoutes();
 		var size = Object.size($scope.routes);
 		$scope.numRoutes = size;
-
+		
 		for (r=0;r<size;r++){
 			drawRoute($scope.routes[r]);
 		}
-		//add all of the routes to the map. 
-		window.map.addLayer(routeLayer);
-		//L.control.layers($scope.routeLayers).addTo(window.map);
-		
-		var overlays = {
-			"Rides": routeLayer
-		};
-
-		L.control.layers(null, overlays).addTo(window.map);
+		for (p=0;p<polylines.length;p++){
+			window.map.addLayer(polylines[p]);
+			rLayers["Route "+p]=polylines[p];
+		}
+		L.control.layers(null, rLayers).addTo(window.map);
+		console.log(polylines);
 	}
 
 	var drawRoute = function(route){
@@ -81,14 +79,13 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 			if (gpsDistance(route[i][0], route[i][1],prohibited[0],prohibited[1])>0.3){
 				data.push([route[i][0], route[i][1]]);
 			}
-			//console.log(route[i][0]);
 		}
 		
 		//calcuate distance between first and last point. 
 		l = data.length-1;
 		var distance = gpsDistance(data[1][0],data[1][1],data[l][0],data[l][1]);
 		
-		
+		//assign a color based on the distance
 		if (distance<5){dcolor = '#000000';}
 		if (distance>=5 && distance<10){dcolor = '#0000FF';}
 		if (distance>=10 && distance<15){dcolor = '#FF00FF';}
@@ -103,10 +100,9 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		
 		//add the route to the map
 		var track = L.polyline(data, polyline_options);
-		
-		//add the route to the RouteLayer
-		track.addTo(routeLayer);
-		
+		//track.addTo(window.map);
+		polylines.push(track); 
+
 		//add a marker showing the start of the route. 
 		var start = L.marker([data[1][0],data[1][1]], {title: "Start"}).addTo(window.map).bindPopup("This Route has a distance of "+distance+"KM.");;
 		var end = L.marker([data[l][0],data[l][1]], {title: "End"}).addTo(window.map);
