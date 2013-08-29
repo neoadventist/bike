@@ -12,6 +12,7 @@ app.factory('sharedData',['$http', function($http) {
 	var fetch = {};
 	//point =[[34.051144,-118.238113]];
 	var routes ={};
+	var layers ={};
 	getInfo= function(){
 		$http({
 			url: "data/get.php",
@@ -52,11 +53,15 @@ app.factory('sharedData',['$http', function($http) {
 				return merged;
 			}
 			routes = merge(routes,r);
-
-			
         },
         getRoutes: function() {
             return routes;
-        }
+        },
+		saveLayers: function(l){
+			layers = l;
+		},
+		getLayers: function(){
+			return layers; 
+		}			
     };
 }]);

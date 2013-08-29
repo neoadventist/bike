@@ -58,18 +58,25 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	}
 
 	var buildRoutes = function(){
+		//get raw route data from factory
 		$scope.routes = sharedData.getRoutes();
 		var size = Object.size($scope.routes);
 		$scope.numRoutes = size;
 		
+		//draw each route from data. 
 		for (r=0;r<size;r++){
 			drawRoute($scope.routes[r]);
 		}
+		//add each route to the map
 		for (p=0;p<polylines.length;p++){
 			window.map.addLayer(polylines[p]);
 			rLayers["Route "+dates[p]]=polylines[p];
 			console.log(dates[p]);
 		}
+		//save process layers for later use. 
+		sharedData.saveLayers(rLayers);
+		
+		//build control box. 
 		L.control.layers(null, rLayers).addTo(window.map);
 	}
 
