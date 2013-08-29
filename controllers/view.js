@@ -104,9 +104,15 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		//track.addTo(window.map);
 		polylines.push(track); 
 		
-		//render a date 
-		routeDate = new Date(route[1][2]); 
-		dates.push(routeDate);
+		//render a date 		
+		for(dateTest=1;dateTest<route.length;dateTest++){
+			console.log(dateTest);
+			routeDate = new Date(route[dateTest][2]);
+			if (!isNaN(routeDate)){ //if the date is valid, then use that date
+				dates.push(routeDate);
+				break;
+			}
+		}
 
 		
 		//add a marker showing the start of the route. 
