@@ -13,6 +13,7 @@ app.factory('sharedData',['$http', function($http) {
 	//point =[[34.051144,-118.238113]];
 	var routes ={};
 	var layers ={};
+	var plans = [];
 	getInfo= function(){
 		$http({
 			url: "data/get.php",
@@ -62,6 +63,12 @@ app.factory('sharedData',['$http', function($http) {
 		},
 		getLayers: function(){
 			return layers; 
-		}			
+		},
+        getPlans: function() {
+            return plans;
+        },
+		setPlans: function(p){
+			plans=p;
+		}		
     };
 }]);
