@@ -7,6 +7,7 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	var rLayers = {};
 	var polylines = [];
 	var dates = [];
+	var names = [];
 	
 	initMap = function(){
 	// set up the map
@@ -70,8 +71,8 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 		//add each route to the map
 		for (p=0;p<polylines.length;p++){
 			window.map.addLayer(polylines[p]);
-			rLayers["Route "+dates[p]]=polylines[p];
-			console.log(dates[p]);
+			rLayers[names[p]]=polylines[p];
+			console.log(names[p]);
 		}
 		//save process layers for later use. 
 		sharedData.saveLayers(rLayers);
@@ -81,8 +82,12 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 	}
 
 	var drawRoute = function(route){
-		var data=[]; 
-		var prohibited=[33.940497, -118.323422];
+		var data=[];
+		//get the name of the route
+		var routename = route[0]["name"]; 
+		
+		//don't show these addresses on the map
+		var prohibited=[33.950497, -118.343422];
 		for (i=1;i<route.length-1;i++){
 			if (gpsDistance(route[i][0], route[i][1],prohibited[0],prohibited[1])>0.3){
 				data.push([route[i][0], route[i][1], route[i][2]]);
@@ -121,6 +126,8 @@ app.controller('view', function ($scope, $timeout, $filter,sharedData) {
 			}
 		}
 
+		//add the name of the route to the names array 
+		names.push(routename);
 		
 		//add a marker showing the start of the route. 
 		var start = L.marker([data[1][0],data[1][1]], {title: "Start"}).addTo(window.map).bindPopup("This Route has a distance of "+distance+"KM."+" It was started on"+routeDate);
