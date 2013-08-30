@@ -1,17 +1,17 @@
 app.controller('upload', function ($scope, $timeout, $filter,sharedData) {
 	$scope.header="Upload Your Ride!";
 	$scope.name = sharedData.getName().name;
-	$scope.mapsId=[];
+	$scope.routeData={};
 	$scope.uploadComplete = function (content, completed) {
 		if (completed && content.length > 0) {
 			$scope.response = (content); // Presumed content is a json string!
-			console.log($scope.response);
+			//console.log($scope.response);
 			sharedData.saveRoutes($scope.response);
 			for($currentRoute=0;$currentRoute<$scope.response.length;$currentRoute++){
 				m = initMap($currentRoute);
 				drawRoute($scope.response[$currentRoute],m);
 			}
-			
+			console.log($scope.routeData);
 		}
 	};
 	
@@ -19,9 +19,11 @@ app.controller('upload', function ($scope, $timeout, $filter,sharedData) {
 	
 var initMap = function(id){
 	// set up the map
-	$scope.mapsId.push("route"+id);
+	$scope.routeData["route"+id] = {};
+	$scope.routeData["route"+id]["route"]="route"+id;
+	$scope.routeData["route"+id]["name"]="RouteName";
 	$scope.$apply();
-	map = new L.Map($scope.mapsId[id]);
+	map = new L.Map($scope.routeData["route"+id].route);
 
 	// create the tile layer with correct attribution
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';

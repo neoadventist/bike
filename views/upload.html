@@ -7,11 +7,13 @@
 	</form>
 </div>
 <div class="row-fluid">
-	<div ng-repeat="map in mapsId">
-		<h1>{{map}}</h1>
-		<div id="{{map}}" class="map"></div>
+	<div ng-repeat="(map, name) in routeData">
+		<div style="float:left">
+			<h1><input type="text" ng-model="name.name" placeholder="{{name.name}}"/></h1>
+			<div id="{{map}}" class="map" style="width:300px; height:300px;"></div>
+		</div>
 	</div>
 </div>
 <div class="row-fluid">
-	<pre>Server Response: {{response}}</pre>
+	<pre>RouteData: {{routeData}}</pre>
 </div>
