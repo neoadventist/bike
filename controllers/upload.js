@@ -16,8 +16,6 @@ app.controller('upload', function ($scope, $timeout, $filter,sharedData) {
 		}
 	};
 	
-	
-	
 var initMap = function(id,name){
 	// set up the map
 	$scope.routeData["route"+id] = {};
@@ -53,14 +51,11 @@ var drawRoute = function(route,map){
 	// zoom the map to the route
 	map.fitBounds(track.getBounds());
 };
-	
+
 $scope.saveName = function(map){
-	
 	id = map.split("e"); 
 	id = id[1]; 
-	console.log(id);
-	$scope.serverRoutes[id][0]["name"]=$scope.routeData["route"+id]["name"];
-	
+	$scope.serverRoutes[id][0]["name"]=$scope.routeData["route"+id]["name"];	
 }	
 $scope.save = function(){
 	sharedData.saveRoutes($scope.serverRoutes);
