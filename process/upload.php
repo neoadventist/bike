@@ -26,6 +26,7 @@ for($f=0;$f<$n;$f++){
 		$route[$i][0]= (float)$point[0]["lat"];
 		$route[$i][1]= (float)$point[0]["lon"];
 		$route[$i][2]= (string)$point[0]->time;
+		$route[$i][3]= (int)$point[0]->ele;
 		$i++;
 	}
 	
