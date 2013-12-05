@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="BIKE">
+	<head>
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/angular.min.js"></script>
+		<script src="assets/js/ui-bootstrap-tpls-0.3.0.min.js"></script>
+		<script src="assets/js/ng-upload.min.js"></script>
+		<script src="app.js"></script>
+		<script src="controllers/start.js"></script>
+		<script src="controllers/plan.js"></script>
+		<script src="controllers/upload.js"></script>
+		<script src="controllers/view.js"></script>
+		<link href="assets/css/bootstrap-combined.min.css" rel="stylesheet">
+		<link href="bike.css" rel="stylesheet">
+		<link rel="stylesheet" href="assets/css/leaflet.css" />
+		<!--[if lte IE 8]>
+			<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+		<![endif]-->
+		<script src="assets/js/leaflet.js"></script>
+	</head>
+	<body class="container-fluid" >
+		<div class="row-fluid">
+			<div class="span3 well">
+				<div class="row-fluid">
+					<h1><a href="#/upload">Upload</a></h1>
+				</div>
+				<div class="row-fluid">
+					<h1><a href="#/view">View</a></h1>
+				</div>
+				<div class="row-fluid">
+					<h1><a href="#/plan">Plan</a></h1>
+				</div>
+				<div class="row-fluid">
+					<h1><a href="#/start">Home</a></h1>
+				</div>
+			</div>
+			<div ng-view class="span9"></div>
+		</div>
+	</body>
+</html>
