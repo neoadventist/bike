@@ -9,7 +9,6 @@ var http = require('http')
     , path = require('path');
 
 
-var mongoose=require('./database.js').mongoose;
 
 /* Define the server */
 var server = express();
@@ -28,6 +27,8 @@ server.use(express.cookieParser());
 server.use(express.static(path.join(__dirname, '../client')));
 server.use(express.favicon());
 
+/* Setup Route Files */ 
+var path = require('./routes/path-routes.js');
 
 /* Routes */
 server.get('/', function (req, res) {
@@ -35,7 +36,7 @@ server.get('/', function (req, res) {
 });
 
 
-
+server.get('/routes/:name', path.addPath);
 
 
 /* Start the server */
